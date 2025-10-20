@@ -1,6 +1,7 @@
 "use client"
 import { ChevronLeft, ChevronRight, Calendar } from "lucide-react"
 import { useState } from "react"
+import { getContemplacionesSemana } from "@/lib/calendar"
 
 interface LiturgicalEvent {
   date: string
@@ -116,6 +117,11 @@ export default function LiturgicalCalendar() {
   // Create calendar grid
   const calendarDays = []
   
+  // Get weekly contemplations from the liturgical calendar library
+  const contemplacionesSemana = getContemplacionesSemana(currentDate)
+  console.log(contemplacionesSemana )
+
+
   // Previous month's trailing days
   for (let i = firstDayOfMonth - 1; i >= 0; i--) {
     const day = daysInPrevMonth - i
