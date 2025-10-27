@@ -25,3 +25,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+components/test-lecturas-dominicales.tsx
+create-test-final.js
+debug-contemplaciones.js
+test-consola-dominical.js
+test-count-direct.js
+test-dominical-count.js
+test-dominical-simple.js
+test-dominical-stats.js
+test-final.mjs
+test-lecturas-dominical.mjs
+tests/calendario-dominical.test.js
