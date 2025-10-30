@@ -43,3 +43,8 @@ lecturas-unicas-simple.js
 test-campo-fecha.js
 test-domingo-corregido.js
 lib/contemplaciones-corregido.json
+lib/calendar.ts
+verificar-no-repeticion.js
+mostrar-respuesta-semana-actual.js
+test-final-no-repeticion.js
+verificacion-precisa-semana.js
