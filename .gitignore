@@ -36,3 +36,10 @@ test-dominical-stats.js
 test-final.mjs
 test-lecturas-dominical.mjs
 tests/calendario-dominical.test.js
+analizar-lecturas-no-estandar.js
+analizar-lecturas-unicas.js
+corregir-lecturas-biblicas.js
+lecturas-unicas-simple.js
+test-campo-fecha.js
+test-domingo-corregido.js
+lib/contemplaciones-corregido.json
