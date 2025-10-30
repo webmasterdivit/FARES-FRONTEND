@@ -104,6 +104,7 @@ export interface Contemplacion {
   resumen: string
   link: string
   dominical: boolean
+  fecha?: string
 }
 
 export interface ContemplacionesSemana {
@@ -276,6 +277,47 @@ function mapSeasonToSpanish(season: Season): string {
   return mapping[season]
 }
 
+/**
+ * Obtiene la fecha del domingo de la semana dada
+ * Si la fecha es de lunes a miércoles, retorna el domingo anterior
+ * Si la fecha es de jueves a sábado, retorna el domingo siguiente
+ * Si ya es domingo, retorna la misma fecha
+ */
+function getDomingoDeEstaSemana(fecha: Date): Date {
+  const fechaCopia = new Date(fecha.getTime())
+  const diaSemana = fechaCopia.getUTCDay() // 0 = Domingo, 1 = Lunes, etc.
+  
+  // Si ya es domingo, retornar la misma fecha
+  if (diaSemana === 0) {
+    return fechaCopia
+  }
+  
+  // Si es lunes, martes o miércoles (1, 2, 3), ir al domingo anterior
+  if (diaSemana <= 3) {
+    return subDays(fechaCopia, diaSemana)
+  }
+  
+  // Si es jueves, viernes o sábado (4, 5, 6), ir al domingo siguiente
+  const diasHastaDomingo = 7 - diaSemana
+  return addDays(fechaCopia, diasHastaDomingo)
+}
+
+/**
+ * Formatea una fecha en español
+ */
+function formatearFechaEspanol(fecha: Date): string {
+  const opciones: Intl.DateTimeFormatOptions = {
+    weekday: 'long',
+    year: 'numeric', 
+    month: 'long',
+    day: 'numeric'
+  }
+  
+  const fechaFormateada = fecha.toLocaleDateString('es-ES', opciones)
+  // Capitalizar la primera letra
+  return fechaFormateada.charAt(0).toUpperCase() + fechaFormateada.slice(1)
+}
+
 
 
 /**
@@ -338,12 +380,22 @@ export function getContemplacionesSemana(fecha?: Date): ContemplacionesSemana {
       return cont.ciclo === ciclo && cont.dominical === true
     }).slice(0, 3)
   }
+  
+  // Calcular la fecha del domingo correspondiente
+  const fechaDomingo = getDomingoDeEstaSemana(hoy)
+  const fechaFormateada = formatearFechaEspanol(fechaDomingo)
+  
+  // Agregar la fecha a cada contemplación
+  const contemplacionesConFecha = contemplaciones.map(cont => ({
+    ...cont,
+    fecha: fechaFormateada
+  }))
     
   return {
     fecha: hoy,
     temporada: seasonInfo.season,
     ciclo,
-    contemplaciones: contemplaciones
+    contemplaciones: contemplacionesConFecha
   }
 }
 
